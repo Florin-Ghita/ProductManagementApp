@@ -17,22 +17,22 @@ public class Shop {
 
 		ProductManager pm = new ProductManager(Locale.US);
 		Product p1 = pm.createProduct(101,"Tea",BigDecimal.valueOf(1.99) , Rating.NOT_RATED);
-		pm.printProductReport(p1);
+		pm.printProductReport(101);
 		p1 = pm.reviewProduct(p1,Rating.FOUR_STAR, "Nice hot cup of tea");
-		
-		p1 = pm.reviewProduct(p1,Rating.THREE_STAR, "Nice hot cup of tea");
-		p1 = pm.reviewProduct(p1,Rating.ONE_STAR, "Not good");
-		p1 = pm.reviewProduct(p1,Rating.FIVE_STAR, "Great");
-		p1 = pm.reviewProduct(p1,Rating.TWO_STAR, "Average");
-		p1 = pm.reviewProduct(p1,Rating.FIVE_STAR, "Verry good");
-		p1 = pm.reviewProduct(p1,Rating.ONE_STAR, "Terible");
+
+		pm.reviewProduct(101,Rating.THREE_STAR, "Nice hot cup of tea");
+		pm.reviewProduct(101,Rating.ONE_STAR, "Not good");
+		pm.reviewProduct(101,Rating.FIVE_STAR, "Great");
+		pm.reviewProduct(101,Rating.TWO_STAR, "Average");
+		pm.reviewProduct(101,Rating.FIVE_STAR, "Verry good");
+		pm.reviewProduct(101,Rating.ONE_STAR, "Terible");
 		pm.printProductReport(p1);
 		
 		Product p2 = pm.createProduct(102,"Coffe",BigDecimal.valueOf(1.99),Rating.NOT_RATED);
-		p2 = pm.reviewProduct(p2, Rating.THREE_STAR, "Coffe was ok " );
-		p2 = pm.reviewProduct(p2, Rating.ONE_STAR, "Where is the milk? " );
-		p2 = pm.reviewProduct(p2, Rating.FIVE_STAR, "It's perfect" );
-		pm.printProductReport(p2);
+		 pm.reviewProduct(102, Rating.THREE_STAR, "Coffe was ok " );
+		 pm.reviewProduct(102, Rating.ONE_STAR, "Where is the milk? " );
+		pm.reviewProduct(102, Rating.FIVE_STAR, "It's perfect" );
+		pm.printProductReport(102);
 		
 		Product p3 = pm.createProduct(103,"Cake",BigDecimal.valueOf(3.99),Rating.NOT_RATED,LocalDate.now().plusDays(2));
 		p3 = pm.reviewProduct(p3, Rating.FIVE_STAR, "Nice cake");
