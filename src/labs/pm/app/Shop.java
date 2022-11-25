@@ -17,7 +17,7 @@ public class Shop {
 
 		ProductManager pm = new ProductManager(Locale.US);
 		Product p1 = pm.createProduct(101,"Tea",BigDecimal.valueOf(1.99) , Rating.NOT_RATED);
-		pm.printProductReport();
+		pm.printProductReport(p1);
 		p1 = pm.reviewProduct(p1,Rating.FOUR_STAR, "Nice hot cup of tea");
 		
 		p1 = pm.reviewProduct(p1,Rating.THREE_STAR, "Nice hot cup of tea");
@@ -26,10 +26,30 @@ public class Shop {
 		p1 = pm.reviewProduct(p1,Rating.ONE_STAR, "Nice hot cup of tea");
 		p1 = pm.reviewProduct(p1,Rating.ONE_STAR, "Nice hot cup of tea");
 		p1 = pm.reviewProduct(p1,Rating.ONE_STAR, "Nice hot cup of tea");
-		pm.printProductReport();
-//		Product p2 = pm.createProduct(102,"Coffe",BigDecimal.valueOf(1.99),Rating.FOUR_STAR);
-//		Product p3 = pm.createProduct(103,"Cake",BigDecimal.valueOf(3.99),Rating.FIVE_STAR,LocalDate.now().plusDays(2));
-//		Product p4 = pm.createProduct(105,"Cookie",BigDecimal.valueOf(3,99),Rating.TWO_STAR,LocalDate.now());
+		pm.printProductReport(p1);
+		
+		Product p2 = pm.createProduct(102,"Coffe",BigDecimal.valueOf(1.99),Rating.NOT_RATED);
+		p2 = pm.reviewProduct(p2, Rating.THREE_STAR, "Coffe was ok " );
+		p2 = pm.reviewProduct(p2, Rating.ONE_STAR, "Where is the milk? " );
+		p2 = pm.reviewProduct(p2, Rating.FIVE_STAR, "It's perfect" );
+		pm.printProductReport(p2);
+		
+		Product p3 = pm.createProduct(103,"Cake",BigDecimal.valueOf(3.99),Rating.NOT_RATED,LocalDate.now().plusDays(2));
+		p3 = pm.reviewProduct(p3, Rating.FIVE_STAR, "Nice cake");
+		p3 = pm.reviewProduct(p3, Rating.FOUR_STAR, "Good");
+		p3 = pm.reviewProduct(p3, Rating.FIVE_STAR, "Nice cake");
+		pm.printProductReport(p3);
+		
+		Product p4 = pm.createProduct(105,"Cookie",BigDecimal.valueOf(2,99),Rating.NOT_RATED,LocalDate.now());
+		p4 = pm.reviewProduct(p4, Rating.THREE_STAR, "Average");
+		p4 = pm.reviewProduct(p4, Rating.TWO_STAR, "Ok");
+		p4 = pm.reviewProduct(p4, Rating.ONE_STAR, "Not good");
+		pm.printProductReport(p4);
+		
+
+
+
+		
 ////		Product p5 = pm.createProduct(Rating.THREE_STAR);
 //		Product p6 = pm.createProduct(104, "Chocolate",BigDecimal.valueOf(2.99),Rating.FIVE_STAR);
 //		Product p7 = pm.createProduct(104, "Chocolate",BigDecimal.valueOf(2.99),Rating.FIVE_STAR,LocalDate.now().plusDays(2));
