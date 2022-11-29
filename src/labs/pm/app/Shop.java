@@ -20,13 +20,15 @@ public class Shop {
 		pm.printProductReport(101);
 		p1 = pm.reviewProduct(p1,Rating.FOUR_STAR, "Nice hot cup of tea");
 
-		pm.reviewProduct(101,Rating.THREE_STAR, "Nice hot cup of tea");
+		pm.reviewProduct(101,Rating.THREE_STAR, "Not great not terible");
 		pm.reviewProduct(101,Rating.ONE_STAR, "Not good");
 		pm.reviewProduct(101,Rating.FIVE_STAR, "Great");
 		pm.reviewProduct(101,Rating.TWO_STAR, "Average");
 		pm.reviewProduct(101,Rating.FIVE_STAR, "Verry good");
 		pm.reviewProduct(101,Rating.ONE_STAR, "Terible");
 		pm.printProductReport(p1);
+		
+		pm.changeLocale("ru-RU");
 		
 		Product p2 = pm.createProduct(102,"Coffe",BigDecimal.valueOf(1.99),Rating.NOT_RATED);
 		 pm.reviewProduct(102, Rating.THREE_STAR, "Coffe was ok " );
@@ -40,7 +42,7 @@ public class Shop {
 		p3 = pm.reviewProduct(p3, Rating.FIVE_STAR, "Nice cake");
 		pm.printProductReport(p3);
 		
-		Product p4 = pm.createProduct(105,"Cookie",BigDecimal.valueOf(2,99),Rating.NOT_RATED,LocalDate.now());
+		Product p4 = pm.createProduct(105,"Cookie",BigDecimal.valueOf(2.99),Rating.NOT_RATED,LocalDate.now());
 		p4 = pm.reviewProduct(p4, Rating.THREE_STAR, "Average");
 		p4 = pm.reviewProduct(p4, Rating.TWO_STAR, "Ok");
 		p4 = pm.reviewProduct(p4, Rating.ONE_STAR, "Not good");
