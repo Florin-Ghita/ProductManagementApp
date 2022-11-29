@@ -10,6 +10,7 @@ import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -107,16 +108,6 @@ public class ProductManager {
 		List<Review> reviews = products.get(product);
 		StringBuilder txt = new StringBuilder();
 
-//		if (product == null)
-//		{
-//			System.out.println("Produsul e null");
-//		}
-//
-//		if (dateFormat == null)
-//		{
-//			System.out.println("Date format e null");
-//		}
-
 		txt.append( formatter.formatProduct(product));
 
 
@@ -135,6 +126,19 @@ public class ProductManager {
 		}
 		System.out.println(txt);
 	}
+	
+	public void printProducts(Comparator<Product> sorter) {
+		
+		List<Product> productList = new ArrayList<>(products.keySet());
+		productList.sort(sorter);
+		StringBuilder txt = new StringBuilder();
+		for (Product product : productList) {
+			txt.append(formatter.formatProduct(product));
+			txt.append('\n');
+		}
+		System.out.println(txt);		
+	}
+	
 	private static class ResourceFormatter {
 		private Locale locale;
 		private	ResourceBundle resources;

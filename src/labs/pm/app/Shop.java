@@ -3,6 +3,7 @@
 import java.math.BigDecimal;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.Locale;
 
 import labs.pm.data.Drink;
@@ -16,9 +17,9 @@ public class Shop {
 	public static void main(String[] args) {
 
 		ProductManager pm = new ProductManager(Locale.US);
-		Product p1 = pm.createProduct(101,"Tea",BigDecimal.valueOf(1.99) , Rating.NOT_RATED);
-		pm.printProductReport(101);
-		p1 = pm.reviewProduct(p1,Rating.FOUR_STAR, "Nice hot cup of tea");
+		pm.createProduct(101,"Tea",BigDecimal.valueOf(1.99) , Rating.NOT_RATED);
+//		pm.printProductReport(101);
+		 pm.reviewProduct(101,Rating.FOUR_STAR, "Nice hot cup of tea");
 
 		pm.reviewProduct(101,Rating.THREE_STAR, "Not great not terible");
 		pm.reviewProduct(101,Rating.ONE_STAR, "Not good");
@@ -26,30 +27,32 @@ public class Shop {
 		pm.reviewProduct(101,Rating.TWO_STAR, "Average");
 		pm.reviewProduct(101,Rating.FIVE_STAR, "Verry good");
 		pm.reviewProduct(101,Rating.ONE_STAR, "Terible");
-		pm.printProductReport(p1);
+//		pm.printProductReport(p1);
 		
-		pm.changeLocale("ru-RU");
+//		pm.changeLocale("ru-RU");
 		
-		Product p2 = pm.createProduct(102,"Coffe",BigDecimal.valueOf(1.99),Rating.NOT_RATED);
+		 pm.createProduct(102,"Coffe",BigDecimal.valueOf(1.99),Rating.NOT_RATED);
 		 pm.reviewProduct(102, Rating.THREE_STAR, "Coffe was ok " );
 		 pm.reviewProduct(102, Rating.ONE_STAR, "Where is the milk? " );
 		pm.reviewProduct(102, Rating.FIVE_STAR, "It's perfect" );
-		pm.printProductReport(102);
+//		pm.printProductReport(102);
 		
 		Product p3 = pm.createProduct(103,"Cake",BigDecimal.valueOf(3.99),Rating.NOT_RATED,LocalDate.now().plusDays(2));
 		p3 = pm.reviewProduct(p3, Rating.FIVE_STAR, "Nice cake");
 		p3 = pm.reviewProduct(p3, Rating.FOUR_STAR, "Good");
 		p3 = pm.reviewProduct(p3, Rating.FIVE_STAR, "Nice cake");
-		pm.printProductReport(p3);
+//		pm.printProductReport(p3);
 		
 		Product p4 = pm.createProduct(105,"Cookie",BigDecimal.valueOf(2.99),Rating.NOT_RATED,LocalDate.now());
 		p4 = pm.reviewProduct(p4, Rating.THREE_STAR, "Average");
 		p4 = pm.reviewProduct(p4, Rating.TWO_STAR, "Ok");
 		p4 = pm.reviewProduct(p4, Rating.ONE_STAR, "Not good");
-		pm.printProductReport(p4);
+//		pm.printProductReport(p4);
 		
-
-
+		Comparator<Product> priceSorter = (p1, p2) -> p2.getPrice().compareTo(p1.getPrice());
+		Comparator<Product> ratingSorter = (p1, p2) -> p2.getRating().ordinal() - p1.getRating().ordinal();
+		pm.printProducts(ratingSorter);
+		pm.printProducts(priceSorter);
 
 		
 ////		Product p5 = pm.createProduct(Rating.THREE_STAR);
