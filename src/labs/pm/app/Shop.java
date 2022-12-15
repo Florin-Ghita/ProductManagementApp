@@ -18,7 +18,7 @@ public class Shop {
 
 		ProductManager pm = new ProductManager(Locale.US);
 		pm.createProduct(101,"Tea",BigDecimal.valueOf(1.99) , Rating.NOT_RATED);
-//		pm.printProductReport(101);
+	
 		pm.reviewProduct(101,Rating.FOUR_STAR, "Nice hot cup of tea") ;
 
 		pm.reviewProduct(101,Rating.THREE_STAR, "Not great not terible") ;
@@ -29,8 +29,8 @@ public class Shop {
 		pm.reviewProduct(101,Rating.FIVE_STAR, "Great");
 		pm.reviewProduct(101,Rating.TWO_STAR, "Average");
 		pm.reviewProduct(101,Rating.FIVE_STAR, "Verry good");
-		pm.reviewProduct(101,Rating.ONE_STAR, "Terible");
-//		pm.printProductReport(p1);
+		pm.reviewProduct(101,Rating.ONE_STAR, "Terible");pm.printProductReport(101);
+	    pm.printProductReport(42);
 		
 //		pm.changeLocale("ru-RU");
 		
@@ -55,6 +55,7 @@ public class Shop {
 		pm.printProducts(p -> p.getPrice().floatValue() < 2 
 				, (p1,p2) -> p2.getRating().ordinal()-p1.getRating().ordinal());
 
+	
 		Comparator<Product> priceSorter = (p1, p2) -> p2.getPrice().compareTo(p1.getPrice());
 		Comparator<Product> ratingSorter = (p1, p2) -> p2.getRating().ordinal() - p1.getRating().ordinal();
 
@@ -64,7 +65,8 @@ public class Shop {
 		
 		
 ////		Product p5 = pm.createProduct(Rating.THREE_STAR);
-//		Product p6 = pm.createProduct(104, "Chocolate",BigDecimal.valueOf(2.99),Rating.FIVE_STAR);
+		pm.createProduct(106, "Chocolate",BigDecimal.valueOf(2.50),Rating.NOT_RATED,LocalDate.now().plusDays(3));
+		pm.printProductReport(106);
 //		Product p7 = pm.createProduct(104, "Chocolate",BigDecimal.valueOf(2.99),Rating.FIVE_STAR,LocalDate.now().plusDays(2));
 ////		Product p8 = pm.createProduct(Rating.FIVE_STAR);
 ////		Product p9 = pm.createProduct(Rating.TWO_STAR);

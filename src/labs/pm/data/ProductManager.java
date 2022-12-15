@@ -18,6 +18,8 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.function.Predicate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class ProductManager {
@@ -34,22 +36,24 @@ public class ProductManager {
 					"en-US", new ResourceFormatter(Locale.US),
 					"ru-RU", new ResourceFormatter(new Locale("ru", "RU")),
 					"fr-FR", new ResourceFormatter(Locale.FRANCE));
+	 
+	private static final Logger logger = Logger.getLogger(ProductManager.class.getName());
 
 
 
 	public ProductManager(Locale locale) {
 		this(locale.toLanguageTag());
 	}
-	
+
 	public ProductManager(String languageTag) {
 		changeLocale(languageTag);
 	}
-	
-	
+
+
 	public void changeLocale(String languageTag) {
 		formatter = formatters.getOrDefault(languageTag, formatters.get("en-GB"));
 	}
-	
+
 	public static Set<String> getSupportedLocales(){
 		return formatters.keySet();
 	}
@@ -68,9 +72,25 @@ public class ProductManager {
 		products.putIfAbsent(product , new ArrayList<>());
 		return product;
 	}
+	
+	public Product findProduct(int id) throws ProductManagerException{
+
+		return products.keySet()
+				.stream()
+				.filter(p -> p.getId() == id)
+				.findFirst()
+				.orElseThrow(() -> new ProductManagerException("Product with id " +id+ " not found"));
+	}
+
 
 	public Product reviewProduct(int id,Rating rating,String comments) {
-		return reviewProduct(findProduct(id), rating, comments);
+		try {
+			return reviewProduct(findProduct(id), rating, comments);
+		} catch (ProductManagerException ex) {
+			
+			logger.log(Level.INFO,null , ex.getMessage());
+		}
+		return null;
 	}
 
 	public Product reviewProduct(Product product,Rating rating,String comments){
@@ -80,7 +100,7 @@ public class ProductManager {
 		products.remove(product,reviews);
 		reviews.add(new Review(rating , comments));
 
-		
+
 		product = product.applyRating(
 				Rateable.convert(
 						(int) Math.round(
@@ -88,24 +108,19 @@ public class ProductManager {
 								.mapToInt(r -> r.getRating().ordinal())
 								.average()
 								.orElse(0))));
-				
+
 		products.put(product, reviews);
 
 		return product;
 	}
-	public Product findProduct(int id) {
-
-		return products.keySet()
-				.stream()
-				.filter(p -> p.getId() == id)
-				.findFirst()
-				.orElseGet(() -> null);
-		
-	}
-
+	
 
 	public void printProductReport(int id) {
-		printProductReport(findProduct(id));
+		try {
+			printProductReport(findProduct(id));
+		} catch (ProductManagerException ex) {
+			logger.log(Level.INFO, null , ex.getMessage());
+		}
 	}
 
 
@@ -116,7 +131,7 @@ public class ProductManager {
 		txt.append( formatter.formatProduct(product));
 		txt.append('\n');
 		Collections.sort(reviews);
-		
+
 		if (reviews.isEmpty()) {
 			txt.append(formatter.getText("no.reviews") + '\n');
 		}else {
@@ -127,24 +142,33 @@ public class ProductManager {
 
 		System.out.println(txt);
 	}
-	
+
 	public void printProducts(Predicate<Product> filter ,Comparator<Product> sorter) {
-//		
-//		List<Product> productList = new ArrayList<>(products.keySet());
-//		productList.sort(sorter);
+
 		StringBuilder txt = new StringBuilder();
 		products.keySet()
 		.stream()
 		.sorted(sorter)
 		.filter(filter)
 		.forEach(p -> txt.append(formatter.formatProduct(p)+ '\n'));
-//		for (Product product : productList) {
-//			txt.append(formatter.formatProduct(product));
-//			txt.append('\n');
-//		}
+
 		System.out.println(txt);		
 	}
+	public Map<String, String> getDiscounts(String languageTag)
+	{
 	
+		ResourceFormatter formatter = formatters.getOrDefault(languageTag, formatters.get("en-GB"));
+		return products.keySet()
+				.stream()
+				.collect(
+						Collectors.groupingBy(
+								product -> product.getRating().getStars(),
+								Collectors.collectingAndThen(
+										Collectors.summingDouble(
+												product -> product.getDiscount().doubleValue()),
+										discount -> formatter.moneyFormat.format(discount))));
+		}
+
 	private static class ResourceFormatter {
 		private Locale locale;
 		private	ResourceBundle resources;
@@ -181,6 +205,6 @@ public class ProductManager {
 
 }
 
-//Nasted clases min 46///
+
 
 
